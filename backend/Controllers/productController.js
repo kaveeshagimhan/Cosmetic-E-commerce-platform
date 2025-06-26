@@ -1,33 +1,36 @@
 import Product from "../Models/product.js";
+import { isAdmin } from "./userController.js";
 
-export function getProduct(res, req) {
-    Product.find().then(
-        (data) => {
-            res.json(data)
+export async function getProduct(req, res) {
+    try {
+        if (isAdmin(req)) {
+            const products = await Product.find();
+            res.json(products)
+        } else {
+            const products = await Product.find({ isAvailable: true });
+            res.json(products)
         }
-    )
+    } catch (err) {
+        res.json({
+            message: "Failed to get products",
+            error: err
+        })
+    }
 }
 
 export function saveProduct(req, res) {
-    if (req.user == null) {
+
+    if (!isAdmin(req)) {
         res.status(403).json({
-            message: "Unauthorized"
-        })
-        return;
-    }
-    if (req.user.role !== "admin") {
-        res.status(403).json({
-            message: "Only admin can add products"
+            message: "You are not authorized to add a product"
         });
         return;
     }
     console.log(req.body);
 
-    const product = new Product({
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description
-    });
+    const product = new Product(
+        req.body
+    );
 
     product
         .save()
@@ -41,4 +44,28 @@ export function saveProduct(req, res) {
                 message: "Faile to add product"
             });
         });
+}
+
+export async function deleteProduct(req, res) {
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message: "You are not authorized to delete a product"
+        });
+        return;
+    }
+
+    try {
+        await Product.deleteOne({ productId: req.params.productId });
+
+        res.json({
+            message: "Product deleted successfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: "Failed to delete product",
+            error: err
+        });
+    }
+
+
 }
