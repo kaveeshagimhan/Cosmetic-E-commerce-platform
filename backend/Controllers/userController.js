@@ -3,6 +3,21 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export function createUser(req, res) {
+    if (req.body.role == "admin") {
+        if (req.user != null) {
+            if (req.user.role != "admin") {
+                res.staus(403).json({
+                    message: "You are not authorized to create an admin account"
+                })
+                return;
+            }
+        } else {
+            res.status(403).json({
+                message: "You are not authorized to create an admin account, please login first"
+            })
+            return;
+        }
+    }
 
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
     const user = new User({
