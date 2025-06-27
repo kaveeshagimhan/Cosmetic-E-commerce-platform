@@ -1,3 +1,4 @@
+import {get } from "http";
 import Product from "../Models/product.js";
 import { isAdmin } from "./userController.js";
 
@@ -93,4 +94,30 @@ export async function updateProduct(req, res) {
             error: err
         });
     }
+}
+
+export async function getProductById(req, res) {
+
+    const productId = req.params.productId;
+    const product = await Product.findOne({ productId: productId })
+
+    if (product == null) {
+        res.status(404).json({
+            message: "Product not found"
+        });
+        return;
+    }
+
+    if (product.isAvailable) {
+        res.json(product);
+    } else {
+        if (!isAdmin(req)) {
+            res.status(404).json({
+                message: "Product not found"
+            });
+        } else {
+            res.json(product);
+        }
+    }
+
 }
