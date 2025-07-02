@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import productRouter from './routes/productRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 
@@ -19,7 +21,7 @@ app.use((req, res, next) => {
         const token = tokenString.replace("Bearer ", "")
             //console.log(token);
 
-        jwt.verify(token, "gg-got-gg",
+        jwt.verify(token, process.env.JWT_KEY,
             (err, decoded) => {
                 if (decoded != null) {
                     req.user = decoded;
@@ -41,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 
-mongoose.connect('mongodb+srv://admin:123@cluster0.b6lm42t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(() => {
+mongoose.connect(process.env.MONGODB_URL).then(() => {
     console.log("Database connected successfully");
 }).catch((err) => {
     console.error("Database connection failed:", err);

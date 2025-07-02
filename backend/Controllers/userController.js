@@ -62,11 +62,12 @@ export function loginUser(req, res) {
                             role: user.role,
                             img: user.img
                         },
-                        "gg-got-gg"
+                        process.env.JWT_KEY
                     )
                     res.json({
                         message: "Login successful",
-                        token: token
+                        token: token,
+                        role: user.role
                     })
                 } else {
                     res.status(401).json({
