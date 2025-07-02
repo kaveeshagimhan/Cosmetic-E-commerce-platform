@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
+
 
 
 export default function LoginPage() {
@@ -15,7 +15,6 @@ export default function LoginPage() {
                 email: email,
                 password : password
             })
-            alert("hihi")
             toast.success("Login Successful")
             console.log(response);
 
@@ -32,8 +31,9 @@ export default function LoginPage() {
             </div>
             <div className = "w-[50%] h-full flex flex-col justify-center items-center">
                 <div className="w-[400px] h-[600px]  backdrop-blur-md rounded-[20px] shadow-xl flex flex-col justify-center items-center">
-                    <input onChange={(e)=>{setEmail(e.target.value)}} value={email} className="w-[300px] h-[50px] border border-white rounded-[20px] my-[20px]"/>
-                    <input onChange={(e)=>{setPassword(e.target.value)}} value={password} type="password"className="w-[300px] h-[50px] border border-white rounded-[20px] mb-[20px]"/>
+                    <h1 className="text-white text-4xl font-bold mb-6">User Login</h1>
+                    <input onChange={(e)=>{setEmail(e.target.value)}} value={email} className="w-[300px] h-[50px] border border-white rounded-[20px] my-[20px] pl-[10px]" placeholder="User Name"/>
+                    <input onChange={(e)=>{setPassword(e.target.value)}} value={password} type="password"className="w-[300px] h-[50px] border border-white rounded-[20px] mb-[20px] pl-[10px]" placeholder="Password"/>
                     <button onClick={handleLogin} className="w-[100px] h-[50px] bg-[#D28595] rounded-[20px] border border-white text-white font-bold text-xl mt-4 my-[20px] cursor-pointer">Login</button>
                     
 
