@@ -3,6 +3,7 @@ import Header from './components/header'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LoginPage from './components/login'
 import { Toaster } from 'react-hot-toast'
+import SignUpPage from './components/signup'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Toaster position='top-right'/> 
         <Routes path = "/*">
           <Route path="/login" element={<LoginPage />} />
+          <Route path = "/signup" element={<SignUpPage />} />
 
         </Routes>
       </div>
