@@ -26,6 +26,7 @@ export default function SignUpPage() {
                 toast.error("Failed to create user, Please try again")
             }else{
                 toast.success("Sign Up Successful")
+                localStorage.setItem("token",response.data.token)
                 navigate("/login");
             }
 
