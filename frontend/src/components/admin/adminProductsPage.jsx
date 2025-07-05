@@ -6,7 +6,7 @@ export default function AdminProductPage(){
 
     const [products, setProducts] = useState(sampleProducts);
     useEffect(()=>{
-        axios.get(import.meta.env.VITE_API_URL + "/api/product").then(
+        axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product").then(
             (res)=>{
                 console.log(res.data);
                 setProducts(res.data);
