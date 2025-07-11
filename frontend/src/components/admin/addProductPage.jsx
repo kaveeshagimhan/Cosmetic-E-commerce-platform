@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import mediaUpload from "../../utils/mediaUpload";
 
 export default function AddProductPage(){
 
@@ -12,7 +13,28 @@ export default function AddProductPage(){
     const [price, setPrice] = useState(0);
     const [stock, setStock] = useState(0);
 
-   
+    async function AddProduct(e){
+        if(images.length <= 0){
+            toast.error("Please select at least one image");
+            return;
+        }
+
+        const promisesArray = [];
+
+        for (let i=0; i<images.length; i++){
+            promisesArray[i] = mediaUpload(images[i]);
+        }
+
+        try{
+            const imageUrls = await Promise.all(promisesArray);
+            console.log(imageUrls);
+
+        }catch(e){
+            console.log(e);
+            return;
+        }
+
+    }
 
 
     return(
@@ -21,13 +43,13 @@ export default function AddProductPage(){
             <input type = "text" placeholder="Product Name" className="input input-bordered w-full max-w-xs" value={name} onChange={(e)=>{setName(e.target.value)}}/>
             <input type = "text" placeholder="Alt Names" className="input input-bordered w-full max-w-xs" value={altNames} onChange={(e)=>{setAltNames(e.target.value)}}/>
             <input type = "text" placeholder="Description" className="input input-bordered w-full max-w-xs" value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
-            <input type = "file" placeholder="Images" multiple className="input input-bordered w-full max-w-xs" value={images} onChange={(e)=>{setImages(e.target.files)}}/>
+            <input type = "file" placeholder="Images" multiple className="input input-bordered w-full max-w-xs" onChange={(e)=>{setImages(e.target.files)}}/>
             <input type = "text" placeholder="Labelled Price" className="input input-bordered w-full max-w-xs" value={labelledPrice} onChange={(e)=>{setLabelledPrice(e.target.value)}}/>
             <input type = "text" placeholder="Price" className="input input-bordered w-full max-w-xs" value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
             <input type = "text" placeholder="Stock" className="input input-bordered w-full max-w-xs" value={stock} onChange={(e)=>{setStock(e.target.value)}}/>
             <div className="w-full flex flex-row justify-center items-center mt-4">
                 <Link to = "/admin/products" className="bg-red-400 text-white font-bold py-2 px-4 rounded mr-4">Cancel</Link>
-                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">Add Product</button>
+                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={AddProduct}>Add Product</button>
 
             </div>
 
