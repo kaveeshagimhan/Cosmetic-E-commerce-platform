@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import mediaUpload from "../../utils/mediaUpload";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AddProductPage(){
 
@@ -13,7 +15,13 @@ export default function AddProductPage(){
     const [price, setPrice] = useState(0);
     const [stock, setStock] = useState(0);
 
-    async function AddProduct(e){
+    async function AddProduct(){
+        const token = localStorage.getItem("token");
+        if(!token){
+            toast.error("Please login first");
+            return;
+        }
+
         if(images.length <= 0){
             toast.error("Please select at least one image");
             return;
@@ -28,6 +36,29 @@ export default function AddProductPage(){
         try{
             const imageUrls = await Promise.all(promisesArray);
             console.log(imageUrls);
+
+            const altNamesArray = altNames.split(",")
+
+            const product = {
+                productId : productId,
+                name : name,
+                altNames : altNamesArray,
+                description : description,
+                images : imageUrls,
+                labelledPrice : labelledPrice,
+                price : price,
+                stock : stock
+            }
+            axios.post(import.meta.env.VITE_BACKEND_URL + "/api/product", product,{
+                headers : {
+                    "Authorization" : "Bearer " + token
+                }
+            }).then(() => {
+                toast.success("Product added successfully");
+
+            }).catch((e) => {
+                toast.error(e.response.data.message);
+            })
 
         }catch(e){
             console.log(e);
