@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import mediaUpload from "../../utils/mediaUpload";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -14,6 +14,7 @@ export default function AddProductPage(){
     const [labelledPrice, setLabelledPrice] = useState(0);
     const [price, setPrice] = useState(0);
     const [stock, setStock] = useState(0);
+    const navigate = useNavigate();
 
     async function AddProduct(){
         const token = localStorage.getItem("token");
@@ -55,6 +56,8 @@ export default function AddProductPage(){
                 }
             }).then(() => {
                 toast.success("Product added successfully");
+                navigate("/admin/products");
+
 
             }).catch((e) => {
                 toast.error(e.response.data.message);
