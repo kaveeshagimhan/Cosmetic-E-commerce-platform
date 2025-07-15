@@ -3,19 +3,43 @@ import { sampleProducts } from "../../assets/sampleData";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function AdminProductPage(){
 
     const [products, setProducts] = useState(sampleProducts);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     useEffect(()=>{
-        axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product").then(
-            (res)=>{
-                console.log(res.data);
-                setProducts(res.data);
+        if(isLoading == true){
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product").then(
+                (res)=>{
+                    console.log(res.data);
+                    setProducts(res.data);
+                    setIsLoading(false);
+                }
+            );
+        }
+        
+    },[isLoading]);
+
+    function deleteProduct(productId){
+        const token = localStorage.getItem("token");
+        if(token == null){
+            toast.error("Please login first");
+            return;
+        }
+        axios.delete(import.meta.env.VITE_BACKEND_URL + "/api/product/" + productId, {
+            headers:{
+                "Authorization": "Bearer " + token
             }
-        );
-    },[]);
+        }).then(()=>{
+            toast.success("Product deleted successfully");
+            setIsLoading(true);
+        }).catch((e)=>{
+            toast.error(e.response.data.message);
+        })
+    }
 
     return(
         <div className="w-full h-full max-h-full overflow-y-scroll relative">
@@ -40,15 +64,18 @@ export default function AdminProductPage(){
                                     <tr key={index}>
                                         <td>{item.productId}</td>
                                         <td>{item.name}</td>
-                                        <td><img src={item.image} className="w-[50px] h-[50px]"/></td>
+                                        <td><img src={item.images} className="w-[50px] h-[50px]"/></td>
                                         <td>{item.labelledPrice}</td>
                                         <td>{item.price}</td>
                                         <td>{item.stock}</td>
-                                        <td><div className="flex flex-row justify-center items-center text-[20px]"><FaTrash className="text-red-500 mx-2 cursor-pointer"/><FaEdit className="mx-2 text-blue-500 cursor-pointer" onClick={()=>{
-                                            navigate("/admin/edit-product", {
-                                                state: item
-                                            })
-                                            }}/>
+                                        <td><div className="flex flex-row justify-center items-center text-[20px]">
+                                                <FaTrash className="text-red-500 mx-2 cursor-pointer" onClick={()=> deleteProduct(item.productId)}/>
+                                                <FaEdit className="mx-2 text-blue-500 cursor-pointer" onClick={()=>{
+                                                    navigate("/admin/edit-product", {
+                                                        state: item
+                                                    })
+                                                    }}
+                                                />
                                             </div>
                                         </td>
                                     </tr>
