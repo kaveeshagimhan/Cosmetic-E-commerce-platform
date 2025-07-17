@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function ProductCard({ product }) {
     return (
-        <div className="w-[300px] h-[450px] shadow-lg rounded-xl m-4 bg-white hover:scale-105 transition-transform duration-300 overflow-hidden">
+        <Link to={"/overview/"+ product.productId} className="w-[300px] h-[450px] shadow-lg rounded-xl m-4 bg-white hover:scale-105 transition-transform duration-300 overflow-hidden">
             <div className="w-full h-[220px] bg-gray-100 flex items-center justify-center overflow-hidden">
                 <img 
                     src={product.images?.[0] || "https://via.placeholder.com/300x220?text=No+Image"} 
@@ -29,6 +31,6 @@ export default function ProductCard({ product }) {
                     {product.stock > 0 ? "Add to Cart" : "Unavailable"}
                 </button>
             </div>
-        </div>
+        </Link>
     );
 }
