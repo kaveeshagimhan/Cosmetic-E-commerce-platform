@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
+import ImageSlider from "../../components/imagesSlider";
+import Loading from "../../components/loading";
 
 export default function ProductOverviewPage(){
     const params = useParams();
@@ -26,15 +28,21 @@ export default function ProductOverviewPage(){
         }
     ,[])
     return(
-        <div className="w-full h-full flex">
-            <div className="w-[50%] h-full bg-red-500">
-
-            </div>
-
-            <div className="w-[50%] h-full bg-blue-900">
-
-            </div>
-            
-        </div> 
+        <>
+            {status == "success" &&(
+                <div className="w-full h-full flex">
+                <div className="w-[50%] h-full bg-red-500">
+                    <ImageSlider images = {product.images}/>
+    
+                </div>
+    
+                <div className="w-[50%] h-full bg-blue-900">
+    
+                </div>
+                
+            </div> 
+            )}
+            {status == "loading"&& <Loading />}
+        </>
     )
 }
