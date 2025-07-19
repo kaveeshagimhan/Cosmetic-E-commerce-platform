@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./header";
-import Product from "./client/productPage";
-import ProductOverviewPage from "./client/productOverview";
+import Product from "../pages/client/productPage";
+import ProductOverviewPage from "../pages/client/productOverview";
 
 export default function HomePage(){
     return(

@@ -1,31 +1,32 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import mediaUpload from "../../utils/mediaUpload";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import mediaUpload from "../../utils/mediaUpload";
 
-export default function EditProductPage() {
+export default function AddProductPage(){
 
-    const location = useLocation();
-    const [productId, setProductId] = useState(location.state.productId);
-    const [name, setName] = useState(location.state.name);
-    const [altNames, setAltNames] = useState(location.state.altNames.join(","));
-    const [description, setDescription] = useState(location.state.description);
+    const [productId, setProductId] = useState('');
+    const [name, setName] = useState('');
+    const [altNames, setAltNames] = useState('');
+    const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
-    const [labelledPrice, setLabelledPrice] = useState(location.state.labelledPrice);
-    const [price, setPrice] = useState(location.state.price);
-    const [stock, setStock] = useState(location.state.stock);
+    const [labelledPrice, setLabelledPrice] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [stock, setStock] = useState(0);
     const navigate = useNavigate();
-    
 
-    async function EditProduct(){
+    async function AddProduct(){
         const token = localStorage.getItem("token");
         if(!token){
             toast.error("Please login first");
             return;
         }
 
-        let imageUrls = location.state.images;
+        if(images.length <= 0){
+            toast.error("Please select at least one image");
+            return;
+        }
 
         const promisesArray = [];
 
@@ -34,9 +35,7 @@ export default function EditProductPage() {
         }
 
         try{
-            if(images.length > 0){
-                const imageUrls = await Promise.all(promisesArray);
-            }
+            const imageUrls = await Promise.all(promisesArray);
             console.log(imageUrls);
 
             const altNamesArray = altNames.split(",")
@@ -51,12 +50,12 @@ export default function EditProductPage() {
                 price : price,
                 stock : stock
             }
-            axios.put(import.meta.env.VITE_BACKEND_URL + "/api/product/"+ productId, product,{
+            axios.post(import.meta.env.VITE_BACKEND_URL + "/api/product", product,{
                 headers : {
                     "Authorization" : "Bearer " + token
                 }
             }).then(() => {
-                toast.success("Product updated successfully");
+                toast.success("Product added successfully");
                 navigate("/admin/products");
 
 
@@ -74,8 +73,7 @@ export default function EditProductPage() {
 
     return(
         <div className="w-full h-full flex flex-col justify-center items-center">
-            <h1 className="text-3xl text-red-600">edit product</h1>
-            <input type = "text" disabled placeholder="Product ID" className="input input-bordered w-full max-w-xs" value={productId} onChange={(e)=>{setProductId(e.target.value)}}/>
+            <input type = "text" placeholder="Product ID" className="input input-bordered w-full max-w-xs" value={productId} onChange={(e)=>{setProductId(e.target.value)}}/>
             <input type = "text" placeholder="Product Name" className="input input-bordered w-full max-w-xs" value={name} onChange={(e)=>{setName(e.target.value)}}/>
             <input type = "text" placeholder="Alt Names" className="input input-bordered w-full max-w-xs" value={altNames} onChange={(e)=>{setAltNames(e.target.value)}}/>
             <input type = "text" placeholder="Description" className="input input-bordered w-full max-w-xs" value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
@@ -85,7 +83,7 @@ export default function EditProductPage() {
             <input type = "text" placeholder="Stock" className="input input-bordered w-full max-w-xs" value={stock} onChange={(e)=>{setStock(e.target.value)}}/>
             <div className="w-full flex flex-row justify-center items-center mt-4">
                 <Link to = "/admin/products" className="bg-red-400 text-white font-bold py-2 px-4 rounded mr-4">Cancel</Link>
-                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={EditProduct}>Update Product</button>
+                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={AddProduct}>Add Product</button>
 
             </div>
 

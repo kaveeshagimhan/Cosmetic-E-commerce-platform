@@ -26,8 +26,15 @@ export default function ProductOverviewPage(){
         }
     ,[])
     return(
-        <div>
-            This is overview page for product {product}
-        </div>
+        <div className="w-full h-full flex">
+            <div className="w-[50%] h-full bg-red-500">
+
+            </div>
+
+            <div className="w-[50%] h-full bg-blue-900">
+
+            </div>
+            
+        </div> 
     )
 }
