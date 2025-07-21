@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import ImageSlider from "../../components/imagesSlider";
 import Loading from "../../components/loading";
+import toast from "react-hot-toast";
 
 export default function ProductOverviewPage(){
     const params = useParams();
@@ -12,7 +13,7 @@ export default function ProductOverviewPage(){
 
     useEffect(
         () =>{
-            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId).then(
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/product/" + productId).then(
                 (response) =>{
                     console.log(response.data)
                     setProduct(response.data)
@@ -31,8 +32,8 @@ export default function ProductOverviewPage(){
         <>
             {status == "success" &&(
                 <div className="w-full h-full flex">
-                <div className="w-[50%] h-full bg-red-500">
-                    <ImageSlider images = {product.images}/>
+                <div className="w-[50%] h-full flex justify-center items-center">
+                <ImageSlider images = {product.images}/>
     
                 </div>
     
