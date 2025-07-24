@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import ImageSlider from "../../components/imagesSlider";
 import Loading from "../../components/loading";
 import toast from "react-hot-toast";
+import { addToCart, getCart } from "../../utils/cart";
 
 export default function ProductOverviewPage(){
     const params = useParams();
@@ -61,7 +62,14 @@ export default function ProductOverviewPage(){
                             :<span className = "text-4xl mx-4 font-bold text-accent">{product.price.toFixed(2)}</span>
                         }
                         <div className = "w-full flex justify-center items-center mt-4">
-                            <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300">Add to cart</button>
+                            <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300" onClick={() =>{
+                                console.log("Old cart")
+                                console.log(getCart())
+                                addToCart(product, 1)
+                                console.log("New cart")
+                                console.log(getCart())
+                                
+                            }}>Add to cart</button>
                             <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300">Buy Now</button>
 
                         </div>
