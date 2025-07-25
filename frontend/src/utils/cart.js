@@ -5,6 +5,7 @@ export function getCart() {
         cart = [];
         localStorage.setItem("cart", JSON.stringify(cart));
     }
+    return cart;
 }
 
 export function removeFromCart(productId) {

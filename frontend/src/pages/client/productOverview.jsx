@@ -65,7 +65,7 @@ export default function ProductOverviewPage(){
                             <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300" onClick={() =>{
                                 console.log("Old cart")
                                 console.log(getCart())
-                                addToCart(product, 1)
+                                addToCart(product,1)
                                 console.log("New cart")
                                 console.log(getCart())
                                 
