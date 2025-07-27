@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getCart } from "../../utils/cart";
+import { addToCart, getCart, removeFromCart } from "../../utils/cart";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
 
 export default function CartPage(){
@@ -27,9 +27,19 @@ export default function CartPage(){
 
                                 </div>
                                 <div className="w-[100px] h-full flex flex-row justify-between items-center">
-                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent"><BsFileMinusFill/></button>
+                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                        () =>{
+                                            addToCart(item, -1)
+                                            setCart(getCart())
+                                        }
+                                    }><BsFileMinusFill/></button>
                                     <h1 className="text-2xl text-secondary font-semibold">{item.qty}</h1>
-                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent"><BsFilePlusFill/></button>
+                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                        () =>{
+                                            addToCart(item, 1)
+                                            setCart(getCart)
+                                        }
+                                    }><BsFilePlusFill/></button>
 
                                 </div>
 
@@ -37,7 +47,12 @@ export default function CartPage(){
                                     <h1 className="text-2xl text-secondary font-semibold">Rs.{(item.price*item.qty).toFixed(2)}</h1>
 
                                 </div>
-                                <button className="absolute text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 right-[-35px]"><BsFillTrashFill/></button>
+                                <button className="absolute text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 right-[-35px]" onClick={
+                                    () =>{
+                                        removeFromCart(item.productId)
+                                        setCart(getCart())
+                                    }
+                                }><BsFillTrashFill/></button>
 
                             </div>
                         )

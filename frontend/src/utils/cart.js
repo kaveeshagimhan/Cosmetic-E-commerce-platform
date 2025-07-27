@@ -14,7 +14,7 @@ export function removeFromCart(productId) {
     const newCart = cart.filter((item) => {
         return item.productId != productId;
     })
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(newCart));
 }
 
 export function addToCart(product, qty) {
