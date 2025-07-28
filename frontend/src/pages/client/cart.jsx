@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { addToCart, getCart, removeFromCart } from "../../utils/cart";
+import { addToCart, getCart, getTotal, removeFromCart } from "../../utils/cart";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export default function CartPage(){
     const [cart,setCart] = useState(getCart());
@@ -62,7 +63,7 @@ export default function CartPage(){
                     )
                 }
             </div>
-            <div className="w-[calc(30%)] mr-6 p-4 border-l-2 border-gray-400">
+            <div className="w-[calc(30%)] mr-6 p-4 border-l-2 border-gray-400 flex flex-col">
                 <h1 className="text-xl text-black font-bold">Summery</h1>
                 <div className="w-fill h-[100px] flex flex-row ml-2 mt-2">
                     {cart.slice(0, 9).map((item, index) => (
@@ -75,6 +76,15 @@ export default function CartPage(){
                     ))}
 
                 </div>
+                <p className="text-2xl font-bold text-black">Total:
+                        <span>
+                            {getTotal().toFixed(2)}
+                        </span>
+                
+                </p>
+                <Link to="/checkout" className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                    Checkout
+                </Link>
 
             </div>
 
