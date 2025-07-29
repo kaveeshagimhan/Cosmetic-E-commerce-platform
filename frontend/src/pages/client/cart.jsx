@@ -76,6 +76,12 @@ export default function CartPage(){
                     ))}
 
                 </div>
+                <p className="text-xl text-gray-600">Sub Total:
+                        <span className="text-right">
+                            lcuggbi
+                        </span>
+                </p>
+                <p className="text-xl text-gray-600">Discount:</p>
                 <p className="text-2xl font-bold text-black">Total:
                         <span>
                             {getTotal().toFixed(2)}
