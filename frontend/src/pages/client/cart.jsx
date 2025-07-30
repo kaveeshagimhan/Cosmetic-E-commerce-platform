@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addToCart, getCart, getTotal, removeFromCart } from "../../utils/cart";
+import { addToCart, getCart, getSubTotal, removeFromCart, getItemsTotal, getShippingFee } from "../../utils/cart";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
@@ -76,15 +76,38 @@ export default function CartPage(){
                     ))}
 
                 </div>
-                <p className="text-xl text-gray-600">Sub Total:
-                        <span className="text-right">
-                            lcuggbi
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-gray-600">Items Total:</span>
+                        <span className="text-xl text-gray-600 text-right line-through">
+                            LKR. {getItemsTotal().toFixed(2)}
                         </span>
-                </p>
-                <p className="text-xl text-gray-600">Discount:</p>
+                </div>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-gray-600">Items Discount:</span>
+                        <span className="text-xl text-gray-600 text-right">
+                            -LKR. {getItemsTotal() - getSubTotal().toFixed(2)}
+                        </span>
+                </div>
+
+                <hr className="border-1 border-gray-600 mt-4"/>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-black">Sub Total:</span>
+                        <span className="text-xl text-black text-right">
+                            LKR. {getSubTotal().toFixed(2)}
+                        </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-black">Shipping:</span>
+                        <span className="text-xl text-black text-right">
+                            {getShippingFee()}
+                        </span>
+                </div>
                 <p className="text-2xl font-bold text-black">Total:
                         <span>
-                            {getTotal().toFixed(2)}
+                            {getSubTotal().toFixed(2)}
                         </span>
                 
                 </p>

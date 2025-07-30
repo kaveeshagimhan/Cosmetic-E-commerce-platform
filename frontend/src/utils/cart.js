@@ -45,7 +45,7 @@ export function addToCart(product, qty) {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function getTotal() {
+export function getSubTotal() {
     let cart = getCart();
 
     let total = 0;
@@ -54,4 +54,19 @@ export function getTotal() {
         total += cart[i].price * cart[i].qty;
     }
     return total;
+}
+
+export function getItemsTotal() {
+    let cart = getCart();
+    let total = 0;
+
+    for (let i = 0; i < cart.length; i++) {
+        total += cart[i].labelledPrice * cart[i].qty;
+    }
+    return total;
+}
+
+export function getShippingFee() {
+    let fee = "Free"
+    return fee;
 }
