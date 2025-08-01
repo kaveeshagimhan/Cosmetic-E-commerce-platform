@@ -3,7 +3,7 @@ import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs
 import { Link } from "react-router-dom";
 
 export default function CheckOutPage(){
-    const [cart,setCart] = useState();
+    const [cart,setCart] = useState([]);
 
     return(
         <div className="w-full h-full flex flex-row justify-center pt-4">
@@ -23,7 +23,7 @@ export default function CheckOutPage(){
                                                 <span className="text-md mx-1 text-gray-500 line-through">{item.labelledPrice.toFixed(2)}</span>
                                                 <span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
                                             </div>
-                                            :<span className="text-md mx-1 font-bold text-accent">{item.price.tiFixed(2)}</span>
+                                            :<span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
                                         }
 
                                     </div>
