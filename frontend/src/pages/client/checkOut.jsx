@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
+ 
 export default function CheckOutPage(){
+    const location = useLocation();
+    console.log(location)
     const [cart,setCart] = useState([]);
 
     return(

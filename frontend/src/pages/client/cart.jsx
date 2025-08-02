@@ -111,7 +111,11 @@ export default function CartPage(){
                         </span>
                 
                 </p>
-                <Link to="/checkout" className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                <Link to="/checkout" state={
+                    {
+                        cart: cart
+                    }
+                } className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
                     Checkout
                 </Link>
 
