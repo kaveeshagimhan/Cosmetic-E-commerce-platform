@@ -67,6 +67,13 @@ export function getItemsTotal() {
 }
 
 export function getShippingFee() {
-    let fee = "Free"
+    let fee = 0;
     return fee;
+}
+
+export function getTotal() {
+    let total = 0;
+    total = getSubTotal() + getShippingFee();
+
+    return total;
 }

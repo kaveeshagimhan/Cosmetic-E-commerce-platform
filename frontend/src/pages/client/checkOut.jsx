@@ -4,8 +4,36 @@ import { Link, useLocation } from "react-router-dom";
  
 export default function CheckOutPage(){
     const location = useLocation();
-    console.log(location)
-    const [cart,setCart] = useState([]);
+    console.log(location.state.cart)
+    const [cart,setCart] = useState(location.state?.cart || []);
+
+    function getTotal(){
+        let total = 0;
+        cart.forEach((item) => {
+            total += item.price*item.qty            
+        });
+    }
+
+    function getSubTotal() {
+        let cart = getCart();
+    
+        let total = 0;
+    
+        for (let i = 0; i < cart.length; i++) {
+            total += cart[i].price * cart[i].qty;
+        }
+        return total;
+    }
+
+    function getItemsTotal() {
+        let cart = getCart();
+        let total = 0;
+    
+        for (let i = 0; i < cart.length; i++) {
+            total += cart[i].labelledPrice * cart[i].qty;
+        }
+        return total;
+    }
 
     return(
         <div className="w-full h-full flex flex-row justify-center pt-4">
@@ -109,9 +137,9 @@ export default function CheckOutPage(){
                         </span>
                 
                 </p>
-                <Link to="/checkout" className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
-                    Checkout
-                </Link>
+                <button className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                    Place Order
+                </button>
 
             </div>
 

@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { addToCart, getCart, getSubTotal, removeFromCart, getItemsTotal, getShippingFee } from "../../utils/cart";
+import { addToCart, getCart, getSubTotal, removeFromCart, getItemsTotal, getShippingFee, getTotal } from "../../utils/cart";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 export default function CartPage(){
     const [cart,setCart] = useState(getCart());
+    const shippingFee = getShippingFee();
 
     return(
         <div className="w-full h-full flex flex-row justify-center pt-4">
@@ -102,12 +103,12 @@ export default function CartPage(){
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-black">Shipping:</span>
                         <span className="text-xl text-black text-right">
-                            {getShippingFee()}
+                            {shippingFee === 0 ? "Free" : `LKR. ${shippingFee}`}
                         </span>
                 </div>
                 <p className="text-2xl font-bold text-black">Total:
                         <span>
-                            {getSubTotal().toFixed(2)}
+                            LKR. {getTotal().toFixed(2)}
                         </span>
                 
                 </p>
