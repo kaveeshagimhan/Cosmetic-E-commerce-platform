@@ -7,32 +7,51 @@ export default function CheckOutPage(){
     console.log(location.state.cart)
     const [cart,setCart] = useState(location.state?.cart || []);
 
-    function getTotal(){
+    function getTotal() {
         let total = 0;
-        cart.forEach((item) => {
-            total += item.price*item.qty            
-        });
+        total = getSubTotal() + getShippingFee();
+    
+        return total;
     }
 
+    function getShippingFee() {
+        let fee = 0;
+        return fee;
+    }
+    const shippingFee = getShippingFee();
+
     function getSubTotal() {
-        let cart = getCart();
-    
         let total = 0;
     
-        for (let i = 0; i < cart.length; i++) {
-            total += cart[i].price * cart[i].qty;
-        }
+        cart.forEach((item) => {
+            total += item.price * item.qty;
+        });
         return total;
     }
 
     function getItemsTotal() {
-        let cart = getCart();
         let total = 0;
     
-        for (let i = 0; i < cart.length; i++) {
-            total += cart[i].labelledPrice * cart[i].qty;
-        }
+        cart.forEach((item)=>{
+            total += item.labelledPrice * item.qty;
+        })
         return total;
+    }
+
+    function removeFromCart(index){
+        const newCart = cart.filter((item, i)=> i !== index)
+        setCart(newCart);
+    }
+
+    function changeQty(index,qty){
+        const newQty = cart[index].qty + qty
+        if (newQty <= 0){
+            removeFromCart(index)
+            return
+        }else{
+            cart[index].qty = newQty
+            setCart(cart)
+        }
     }
 
     return(
@@ -40,7 +59,7 @@ export default function CheckOutPage(){
             <div className="w-[calc(70%)] flex flex-col items-center">
                 {
                     cart.map(
-                        (item) => {
+                        (item , index) => {
                             return (
                                 <div key = {item.productId} className="w-[600px] my-4 h-[100px] rounded-3xl bg-primary shadow-2xl flex flex-row relative justify-center items-center">
                                     <img src={item.image} className="w-[100px] h-[100px] object-cover rounded-3xl"/>
@@ -60,13 +79,13 @@ export default function CheckOutPage(){
                                     <div className="w-[100px] h-full flex flex-row justify-between items-center">
                                         <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
                                             () =>{
-                                                
+                                                changeQty(index ,-1)
                                             }
                                         }><BsFileMinusFill/></button>
                                         <h1 className="text-2xl text-secondary font-semibold">{item.qty}</h1>
                                         <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
                                             () =>{
-                                                
+                                                changeQty(index , 1)
                                             }
                                         }><BsFilePlusFill/></button>
 
@@ -78,7 +97,7 @@ export default function CheckOutPage(){
                                     </div>
                                     <button className="absolute text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 right-[-35px]" onClick={
                                         () =>{
-                                            
+                                            removeFromCart(index)
                                         }
                                     }><BsFillTrashFill/></button>
 
@@ -105,14 +124,14 @@ export default function CheckOutPage(){
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-gray-600">Items Total:</span>
                         <span className="text-xl text-gray-600 text-right line-through">
-                            LKR.
+                            LKR. {getItemsTotal().toFixed(2)}
                         </span>
                 </div>
 
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-gray-600">Items Discount:</span>
                         <span className="text-xl text-gray-600 text-right">
-                            -LKR.
+                            -LKR.{(getItemsTotal() - getSubTotal()).toFixed(2)}
                         </span>
                 </div>
 
@@ -121,19 +140,19 @@ export default function CheckOutPage(){
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-black">Sub Total:</span>
                         <span className="text-xl text-black text-right">
-                            LKR. 
+                            LKR. {getSubTotal().toFixed(2)}
                         </span>
                 </div>
 
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-black">Shipping:</span>
                         <span className="text-xl text-black text-right">
-                            
+                            {shippingFee === 0 ? "Free" : `LKR. ${shippingFee}`}
                         </span>
                 </div>
                 <p className="text-2xl font-bold text-black">Total:
                         <span>
-                           
+                           LKR. {getTotal().toFixed(2)}
                         </span>
                 
                 </p>
