@@ -52,7 +52,7 @@ export default function CheckOutPage(){
             const newCart = [...cart]
             newCart[index].qty = newQty
             setCart(newCart)
-        }
+        } 
     }
 
     return(
