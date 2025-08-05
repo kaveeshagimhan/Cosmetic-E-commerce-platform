@@ -49,8 +49,9 @@ export default function CheckOutPage(){
             removeFromCart(index)
             return
         }else{
-            cart[index].qty = newQty
-            setCart(cart)
+            const newCart = [...cart]
+            newCart[index].qty = newQty
+            setCart(newCart)
         }
     }
 
