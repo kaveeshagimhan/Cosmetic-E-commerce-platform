@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import ImageSlider from "../../components/imagesSlider";
 import Loading from "../../components/loading";
 import toast from "react-hot-toast";
@@ -10,7 +10,8 @@ export default function ProductOverviewPage(){
     const params = useParams();
     const productId = params.id
     const [status, setStatus] = useState("loading"); //loading, success, error
-    const [product, setProduct] = useState(null)
+    const [product, setProduct] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(
         () =>{
@@ -70,7 +71,25 @@ export default function ProductOverviewPage(){
                                 console.log(getCart())
                                 
                             }}>Add to cart</button>
-                            <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300">Buy Now</button>
+                            <button className = "w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300"
+                                onClick={()=>{
+                                    navigate("/checkout",{
+                                        state:{
+                                            cart:[
+                                            {
+                                                productId: product.productId,
+                                                name: product.name,
+                                                image: product.images?.[0],
+                                                price: product.price,
+                                                labelledPrice: product.labelledPrice,
+                                                qty: 1
+        
+                                            }]
+                                        }
+                                    })
+        
+                                }}
+                            >Buy Now</button>
 
                         </div>
                     </div>
