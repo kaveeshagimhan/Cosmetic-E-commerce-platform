@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
+    const navigate = useNavigate();
     return (
         <Link to={"/overview/"+ product.productId} className="w-[300px] h-[450px] shadow-lg rounded-xl m-4 bg-white hover:scale-105 transition-transform duration-300 overflow-hidden">
             <div className="w-full h-[220px] bg-gray-100 flex items-center justify-center overflow-hidden">
@@ -24,12 +25,39 @@ export default function ProductCard({ product }) {
                         {product.stock > 0 ? `In stock (${product.stock})` : "Out of stock"}
                     </div>
                 </div>
-                <button 
-                    className="mt-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full"
-                    disabled={product.stock <= 0}
-                >
-                    {product.stock > 0 ? "Add to Cart" : "Unavailable"}
-                </button>
+                <div className="flex gap-2 mt-auto">
+                    <button 
+                        className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md flex-1"
+                        disabled={product.stock <= 0}
+                    >
+                        {product.stock > 0 ? "Add to Cart" : "Unavailable"}
+                    </button>
+                    <button
+                        disabled={!product.isAvailable || product.stock <= 0}
+                        className="px-3 py-1 text-5m rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 transition"
+                        onClick={(e)=>{
+                            navigate("/checkout",{
+                                state:{
+                                    cart:[
+                                    {
+                                        productId: product.productId,
+                                        name: product.name,
+                                        image: product.image[0],
+                                        price: product.price,
+                                        labelledPrice: product.labelledPrice,
+                                        qty: 1
+
+                                    }]
+                                }
+                            })
+
+                        }}
+                    >
+                        {product.isAvailable && product.stock > 0 ? "Buy Now" : "Unavailable"}
+
+                    </button>
+                </div>
+                
             </div>
         </Link>
     );
