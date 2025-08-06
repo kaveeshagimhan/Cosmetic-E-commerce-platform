@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
  
@@ -53,6 +55,44 @@ export default function CheckOutPage(){
             newCart[index].qty = newQty
             setCart(newCart)
         } 
+    }
+
+    async function placeOrder(){
+        const token = localStorage.getItem("token")
+        if(!token){
+            toast.error("Please login to place order")
+            return;
+        }
+
+        const orderInfomation = {
+            product : [],
+            phone : "0771234567",
+            address : "123 Main Street, Colombo"
+        }
+        
+        for(let i=0; i<cart.length; i++){
+            const item = {
+                productId: cart[i].productId,
+                qty: cart[i].qty
+            }
+            orderInfomation.product[i] = item
+        }
+        try{
+            const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/order", orderInfomation, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+            toast.success("Order placed successfully")
+            console.log(res.data)
+
+        }catch(e){
+            console.log(e)
+            toast.error("Failed to place order, please try again later")
+            return;
+        }
+
+
     }
 
     return(
@@ -157,7 +197,9 @@ export default function CheckOutPage(){
                         </span>
                 
                 </p>
-                <button className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                <button className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300"
+                    onClick={placeOrder}
+                >
                     Place Order
                 </button>
 
