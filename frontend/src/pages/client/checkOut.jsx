@@ -8,6 +8,8 @@ export default function CheckOutPage(){
     const location = useLocation();
     console.log(location.state.cart)
     const [cart,setCart] = useState(location.state?.cart || []);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("")
 
     function getTotal() {
         let total = 0;
@@ -66,8 +68,8 @@ export default function CheckOutPage(){
 
         const orderInfomation = {
             product : [],
-            phone : "0771234567",
-            address : "123 Main Street, Colombo"
+            phone : phoneNumber,
+            address : address
         }
         
         for(let i=0; i<cart.length; i++){
@@ -172,7 +174,7 @@ export default function CheckOutPage(){
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-gray-600">Items Discount:</span>
                         <span className="text-xl text-gray-600 text-right">
-                            -LKR.{(getItemsTotal() - getSubTotal()).toFixed(2)}
+                            -LKR. {(getItemsTotal() - getSubTotal()).toFixed(2)}
                         </span>
                 </div>
 
@@ -197,7 +199,21 @@ export default function CheckOutPage(){
                         </span>
                 
                 </p>
-                <button className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300"
+                <input
+                    type= "text"
+                    placeholder="Phone Number"
+                    className="w-full h-[40px] px-2 rounded-lg border border-gray-300 mt-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                    value={phoneNumber}
+                    onChange={(e)=>setPhoneNumber(e.target.value)}
+                />
+                <input
+                    type= "text"
+                    placeholder="Address"
+                    className="w-full h-[40px] px-2 rounded-lg border border-gray-300 my-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                    value={address}
+                    onChange={(e)=>setAddress(e.target.value)}
+                />
+                <button className="w-[150px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300"
                     onClick={placeOrder}
                 >
                     Place Order

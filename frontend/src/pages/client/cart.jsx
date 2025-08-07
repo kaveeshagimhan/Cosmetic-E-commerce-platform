@@ -87,7 +87,7 @@ export default function CartPage(){
                 <div className="flex justify-between items-center">
                         <span className="text-xl text-gray-600">Items Discount:</span>
                         <span className="text-xl text-gray-600 text-right">
-                            -LKR. {getItemsTotal() - getSubTotal().toFixed(2)}
+                            -LKR. {(getItemsTotal() - getSubTotal()).toFixed(2)}
                         </span>
                 </div>
 
