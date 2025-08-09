@@ -4,7 +4,7 @@ import Product from "../Models/product.js";
 
 export async function createOrder(req, res) {
     if (req.user == null) {
-        res.json({
+        res.status(403).json({
             message: "please login and try again"
         })
         return;
@@ -105,5 +105,29 @@ export async function createOrder(req, res) {
         return;
     }
 
+
+}
+
+export async function getOrders(req, res) {
+    if (req.user == null) {
+        res.status(403).json({
+            message: "please login and try again"
+        })
+        return;
+    }
+
+    try {
+        if (req.user.role == "admin") {
+            const orders = await Order.find()
+        } else {
+            const orders = await Order.find({ email: req.user.email });
+            res.json(orders);
+        }
+    } catch (err) {
+        res.status(500).json({
+            massage: "Failed to fetch orders",
+            error: err,
+        });
+    }
 
 }

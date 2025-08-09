@@ -25,7 +25,7 @@ export default function AdminPage(){
                 <Link className = {getClass("reviews")} to = "/admin/reviews">Reviews</Link>
 
             </div>
-            <div className= "h-full w-[calc(100%-300px)]">
+            <div className= "h-full w-[calc(100%-200px)]">
                 <Routes path= "/*">
                     <Route path = "/products" element ={<AdminProductPage/>}/>
                     <Route path = "/users" element = {<h1>Users</h1>}/>
