@@ -67,7 +67,7 @@ export default function CheckOutPage(){
         }
 
         const orderInfomation = {
-            product : [],
+            products : [],
             phone : phoneNumber,
             address : address
         }
@@ -77,8 +77,9 @@ export default function CheckOutPage(){
                 productId: cart[i].productId,
                 qty: cart[i].qty
             }
-            orderInfomation.product[i] = item
+            orderInfomation.products[i] = item
         }
+        console.log(orderInfomation);
         try{
             const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/order", orderInfomation, {
                 headers: {

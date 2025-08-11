@@ -64,10 +64,10 @@ export async function createOrder(req, res) {
                         labelledPrice: item.labelledPrice,
                         price: item.price
                     },
-                    quantity: orderInfo.products[i].quantity
+                    quantity: orderInfo.products[i].qty
                 }
-                total += item.price * orderInfo.products[i].quantity;
-                labelledTotal += item.labelledPrice * orderInfo.products[i].quantity;
+                total += item.price * orderInfo.products[i].qty;
+                labelledTotal += item.labelledPrice * orderInfo.products[i].qty;
 
 
             }
