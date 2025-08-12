@@ -19,7 +19,7 @@ export default function AdminOrdersPage(){
                     Authorization: "Bearer " + token
                 }
             }).then((res)=>{
-                setOrders(req.data);
+                setOrders(res.data);
                 console.log(res.data)
                 setIsLoading(false);
             }).catch((e)=>{
