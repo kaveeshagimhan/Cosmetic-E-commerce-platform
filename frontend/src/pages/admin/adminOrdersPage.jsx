@@ -81,9 +81,7 @@ export default function AdminOrdersPage() {
             <p>
               <strong>Status:</strong> {activeOrder.status}
               <select 
-                onChange={(e)=>{
-                    console.log(e)
-                }}
+                
               >
 
                 <option selected disabled>Change status</option>
