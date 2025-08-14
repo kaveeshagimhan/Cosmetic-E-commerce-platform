@@ -1,5 +1,6 @@
 import Order from "../Models/order.js";
 import Product from "../Models/product.js";
+import { isAdmin } from "./userController.js";
 
 
 export async function createOrder(req, res) {
@@ -145,7 +146,7 @@ export async function updateOrderStatus(req, res) {
         const orderId = req.params.orderId;
         const status = req.body.status;
 
-        await Order, updateOne({ orderId: orderId }, { status: status })
+        await Order.updateOne({ orderId: orderId }, { status: status })
 
         res.json({
             message: "Order status updated successfully"

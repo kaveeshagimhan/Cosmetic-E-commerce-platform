@@ -2,6 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "../../components/loading";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 Modal.setAppElement("#root"); // Important for accessibility
 
@@ -10,6 +13,7 @@ export default function AdminOrdersPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState(null);
+  
 
   useEffect(() => {
     if (isLoading) {
@@ -81,7 +85,32 @@ export default function AdminOrdersPage() {
             <p>
               <strong>Status:</strong> {activeOrder.status}
               <select 
-                
+                onChange={async (e)=>{
+                    const updatedValue = e.target.value;
+                    try{
+                        const token = localStorage.getItem("token");
+                        await axios.put(
+                            import.meta.env.VITE_BACKEND_URL + "/api/order/" + activeOrder.orderId,
+                            {
+                                status: updatedValue
+                            },
+                            {
+                                headers: {
+                                    Authorization: "Bearer " + token,
+                                },
+                            }
+                        );
+                        setIsLoading(true);
+                        const updatedOrder = {...activeOrder};
+                        updatedOrder.status = updatedValue;
+                        setActiveOrder(updatedOrder);
+                    }catch (e){
+                        toast.error("Error updating order status")
+                        console.log(e)
+
+                    }
+                }}
+                value={orders.status}
               >
 
                 <option selected disabled>Change status</option>
