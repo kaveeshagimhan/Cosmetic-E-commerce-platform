@@ -6,10 +6,14 @@ import { useState } from "react";
 
 export default function Header() {
     const navigate = useNavigate();
-    const [isSiedDrawerOpened, setSiedDrawerOpened] = useState(true)
+    const [sideDrawerOpened, setSideDrawerOpened] = useState(true)
     return(
         <header className="w-full h-[80px] shadow-2xl flex justify-center relative">
-            <GiHamburgerMenu className="h-full text-3xl md:hidden absolute left-2"/>
+            <GiHamburgerMenu className="h-full text-3xl md:hidden absolute left-2" onClick={
+                ()=>{
+                    setSideDrawerOpened(true)
+                }
+            }/>
             <img onClick= {() =>
                 navigate("/")
             }
@@ -29,8 +33,23 @@ export default function Header() {
 
             </div>
             {
-                isSiedDrawerOpened &&
+                sideDrawerOpened &&
                 <div className="fixed w-full h-screen bg-[#00000060] md:hidden">
+                    <div className="w-[350px] h-full bg-white ">
+                        <div className="w-full h-[80px] shadow-2xl flex justify-center relative">
+                            <GiHamburgerMenu className="h-full text-3xl absolute left-2" onClick={
+                                ()=>{
+                                    setSideDrawerOpened(false)
+                                }
+                            }/>
+                            <img onClick= {() =>
+                                    window.location.href = "/"
+                                }
+                                src="/logo.png" alt="Logo" className="w-[80px] h-[80px] object-cover cursor-pointer ">
+                            </img>
+                        </div>
+
+                    </div>
 
                 </div>
             }
