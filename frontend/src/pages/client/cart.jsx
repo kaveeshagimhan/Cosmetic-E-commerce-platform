@@ -9,14 +9,14 @@ export default function CartPage(){
 
     return(
         <div className="w-full h-full flex flex-row justify-center pt-4">
-            <div className="w-[calc(70%)] flex flex-col items-center">
+            <div className="w-full md:w-[calc(70%)] flex flex-col md:items-center">
                 {
                     cart.map(
                         (item) => {
                             return (
-                                <div key = {item.productId} className="w-[600px] my-4 h-[100px] rounded-3xl bg-primary shadow-2xl flex flex-row relative justify-center items-center">
-                                    <img src={item.image} className="w-[100px] h-[100px] object-cover rounded-3xl"/>
-                                    <div className="w-[250px] h-full flex flex-col justify-center items-start pl-4">
+                                <div key = {item.productId} className="w-full md:w-[600px] my-4 h-[80px] md:h-[100px] rounded-3xl bg-primary shadow-2xl flex flex-row relative justify-center items-center">
+                                    <img src={item.image} className="w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-cover rounded-3xl"/>
+                                    <div className="md:w-[250px] h-full flex flex-col justify-center items-start pl-4">
                                         <h1 className="text-xl text-secondary font-semibold">{item.name}</h1>
                                         <h1 className="text-md text-gray-600 font-semibold">{item.productId}</h1>
                                         {
@@ -29,7 +29,7 @@ export default function CartPage(){
                                         }
 
                                     </div>
-                                    <div className="w-[100px] h-full flex flex-row justify-between items-center">
+                                    <div className="md:w-[100px] h-full flex flex-row justify-between items-center">
                                         <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
                                             () =>{
                                                 addToCart(item, -1)
@@ -46,11 +46,11 @@ export default function CartPage(){
 
                                     </div>
 
-                                    <div className="w-[200px] h-full flex flex-col justify-center items-end pr-4">
+                                    <div className="md:w-[200px] h-full flex flex-col justify-center items-end pr-4">
                                         <h1 className="text-2xl text-secondary font-semibold">Rs.{(item.price*item.qty).toFixed(2)}</h1>
 
                                     </div>
-                                    <button className="absolute text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 right-[-35px]" onClick={
+                                    <button className="text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 " onClick={
                                         () =>{
                                             removeFromCart(item.productId)
                                             setCart(getCart())
@@ -64,7 +64,66 @@ export default function CartPage(){
                     )
                 }
             </div>
-            <div className="w-[calc(30%)] mr-6 p-4 border-l-2 border-gray-400 flex flex-col">
+            {/*Only for up to md*/}
+            <div className="w-[calc(30%)] hidden mr-6 p-4 border-l-2 border-gray-400 md:flex flex-col">
+                <h1 className="text-xl text-black font-bold">Summery</h1>
+                <div className="w-fill h-[100px] flex flex-row ml-2 mt-2">
+                    {cart.slice(0, 9).map((item, index) => (
+                        <img
+                            key={index}
+                            src={item.image}
+                            alt={item.name}
+                            className="w-[50px] h-[50px] object-cover mb-2 mr-2 rounded-md"
+                        />
+                    ))}
+
+                </div>
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-gray-600">Items Total:</span>
+                        <span className="text-xl text-gray-600 text-right line-through">
+                            LKR. {getItemsTotal().toFixed(2)}
+                        </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-gray-600">Items Discount:</span>
+                        <span className="text-xl text-gray-600 text-right">
+                            -LKR. {(getItemsTotal() - getSubTotal()).toFixed(2)}
+                        </span>
+                </div>
+
+                <hr className="border-1 border-gray-600 mt-4"/>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-black">Sub Total:</span>
+                        <span className="text-xl text-black text-right">
+                            LKR. {getSubTotal().toFixed(2)}
+                        </span>
+                </div>
+
+                <div className="flex justify-between items-center">
+                        <span className="text-xl text-black">Shipping:</span>
+                        <span className="text-xl text-black text-right">
+                            {shippingFee === 0 ? "Free" : `LKR. ${shippingFee}`}
+                        </span>
+                </div>
+                <p className="text-2xl font-bold text-black">Total:
+                        <span>
+                            LKR. {getTotal().toFixed(2)}
+                        </span>
+                
+                </p>
+                <Link to="/checkout" state={
+                    {
+                        cart: cart
+                    }
+                } className="w-[100px] text-white bg-accent px-4 py-4 rounded-lg font-bold hover:bg-secondary transition-all duration-300">
+                    Checkout
+                </Link>
+
+            </div>
+                {/*Small device shows*/}
+            <div className="md:hidden w-full mr-6 p-4 border-l-2 border-gray-400 flex flex-col absolute bottom-0">
                 <h1 className="text-xl text-black font-bold">Summery</h1>
                 <div className="w-fill h-[100px] flex flex-row ml-2 mt-2">
                     {cart.slice(0, 9).map((item, index) => (
