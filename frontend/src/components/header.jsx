@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function Header() {
     const navigate = useNavigate();
-    const [sideDrawerOpened, setSideDrawerOpened] = useState(true)
+    const [sideDrawerOpened, setSideDrawerOpened] = useState(false)
     return(
         <header className="w-full h-[80px] shadow-2xl flex justify-center relative">
             <GiHamburgerMenu className="h-full text-3xl md:hidden absolute left-2" onClick={
@@ -47,6 +47,14 @@ export default function Header() {
                                 }
                                 src="/logo.png" alt="Logo" className="w-[80px] h-[80px] object-cover cursor-pointer ">
                             </img>
+                        </div>
+                        <div className="w-full h-[calc(100%-80px)] flex flex-col items-center gap-2">
+                            <a href="/" className="text-[20px] font-bold mx-2 my-4">Home</a>
+                            <a href="/products" className="text-[20px] font-bold mx-2 my-4">Products</a>
+                            <a href="/about" className="text-[20px] font-bold mx-2 my-4">About</a>
+                            <a href="/contact" className="text-[20px] font-bold mx-2 my-4">Contact</a>
+                            <a href="/cart" className="text-[20px] font-bold mx-2 my-4"><BsCart3/></a>
+                            
                         </div>
 
                     </div>
