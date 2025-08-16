@@ -8,8 +8,8 @@ import CheckOutPage from "../pages/client/checkOut";
 export default function HomePage(){
     return(
         <div className="w-full h-screen flex flex-col items-center">
-            <Header />
-            <div className="w-full h-[calc(100%-80px)] flex flex-col items-center">
+            <div className="fixed left-0 top-0 w-full z-50 bg-white"><Header /></div>
+            <div className="w-full h-[calc(100%-80px)] flex flex-col items-center pt-[80px]">
                 <Routes path="/*">
                     <Route path="/" element={<h1>Home</h1>}/>
                     <Route path="/products" element={<Product/>}/>
