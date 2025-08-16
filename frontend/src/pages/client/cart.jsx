@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addToCart, getCart, getSubTotal, removeFromCart, getItemsTotal, getShippingFee, getTotal } from "../../utils/cart";
-import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFilePlusFill, BsFileMinusFill, BsFillTrashFill} from "react-icons/bs";
+import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function CartPage(){
@@ -14,11 +15,11 @@ export default function CartPage(){
                     cart.map(
                         (item) => {
                             return (
-                                <div key = {item.productId} className="w-full md:w-[600px] my-4 h-[80px] md:h-[100px] rounded-3xl bg-primary shadow-2xl flex flex-row relative justify-center items-center">
+                                <div key = {item.productId} className="w-full md:w-[600px] my-4 h-[80px] md:h-[100px] rounded-3xl bg-primary shadow-2xl flex flex-row relative md:justify-center items-center">
                                     <img src={item.image} className="w-[80px] h-[80px] md:w-[100px] md:h-[100px] object-cover rounded-3xl"/>
-                                    <div className="md:w-[250px] h-full flex flex-col justify-center items-start pl-4">
-                                        <h1 className="text-xl text-secondary font-semibold">{item.name}</h1>
-                                        <h1 className="text-md text-gray-600 font-semibold">{item.productId}</h1>
+                                    <div className="md:w-[250px] h-full flex flex-col justify-center items-start pl-1 md:pl-4">
+                                        <h1 className="text-2xl md:text-xl text-secondary font-semibold">{item.name}</h1>
+                                        <h1 className="text-xl md:text-md text-gray-600 font-semibold">{item.productId}</h1>
                                         {
                                             item.labelledPrice > item.price ?
                                             <div>
@@ -29,15 +30,15 @@ export default function CartPage(){
                                         }
 
                                     </div>
-                                    <div className="md:w-[100px] h-full flex flex-row justify-between items-center">
-                                        <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                    <div className="md:w-[100px] h-full md:flex flex-row justify-between items-center hidden">
+                                        <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-sm md:text-xl cursor-pointer aspect-square bg-accent" onClick={
                                             () =>{
                                                 addToCart(item, -1)
                                                 setCart(getCart())
                                             }
                                         }><BsFileMinusFill/></button>
-                                        <h1 className="text-2xl text-secondary font-semibold">{item.qty}</h1>
-                                        <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                        <h1 className="text-md md:text-2xl text-secondary font-semibold">{item.qty}</h1>
+                                        <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-sm md:text-xl cursor-pointer aspect-square bg-accent" onClick={
                                             () =>{
                                                 addToCart(item, 1)
                                                 setCart(getCart)
@@ -46,11 +47,30 @@ export default function CartPage(){
 
                                     </div>
 
-                                    <div className="md:w-[200px] h-full flex flex-col justify-center items-end pr-4">
-                                        <h1 className="text-2xl text-secondary font-semibold">Rs.{(item.price*item.qty).toFixed(2)}</h1>
+                                    {/*only for sm device*/}
+
+                                    <div className="md:w-[100px] h-full flex flex-col justify-center items-center md:hidden pt-2 pb-2 pr-2">
+                                        <button className="text-white font-bold rounded-xl hover:bg-secondary  text-xl md:text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                            () =>{
+                                                addToCart(item, 1)
+                                                setCart(getCart())
+                                            }
+                                        }><FaAngleUp /></button>
+                                        <h1 className="text-md md:text-2xl text-secondary font-semibold">{item.qty}</h1>
+                                        <button className="text-white font-bold rounded-xl hover:bg-secondary  text-xl md:text-xl cursor-pointer aspect-square bg-accent" onClick={
+                                            () =>{
+                                                addToCart(item, -1)
+                                                setCart(getCart)
+                                            }
+                                        }><FaAngleDown /></button>
 
                                     </div>
-                                    <button className="text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full p-2 " onClick={
+
+                                    <div className="md:w-[200px] h-full flex flex-col justify-center md:items-end md:pr-4">
+                                        <h1 className="text-xl text-secondary font-semibold">Rs.{(item.price*item.qty).toFixed(2)}</h1>
+
+                                    </div>
+                                    <button className="text-red-600 cursor-pointer hover:bg-red-600 hover:text-white rounded-full absolute right-0" onClick={
                                         () =>{
                                             removeFromCart(item.productId)
                                             setCart(getCart())
